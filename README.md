@@ -1,47 +1,56 @@
-# React Render Wave examples
+# React Render Wave docs
 
-Runnable examples for [react-render-wave](https://github.com/sudo-ezekiel/react-render-wave) v3, built with Next.js and Tailwind. Every example on the site is a real page in `app/examples`, so you can copy one into your own project and run it.
+The documentation site for [react-render-wave](https://github.com/sudo-ezekiel/react-render-wave):
+API reference, recipes, and runnable examples.
 
-## Examples
+Live at **[renderwave.sudo-ezekiel.com](https://renderwave.sudo-ezekiel.com)**.
 
-| Page                        | Shows                                                                     |
-| --------------------------- | ------------------------------------------------------------------------- |
-| `/examples/basic`           | 10,000 rows windowed down to a handful of DOM nodes                       |
-| `/examples/dynamic-heights` | Rows of varying height, measured automatically                            |
-| `/examples/sticky-headers`  | `groupByKey` plus a pinned header for the current group                   |
-| `/examples/infinite-scroll` | `onEndReached` appending pages without duplicate fetches                  |
-| `/examples/keyboard`        | Keyboard navigation and the imperative handle                            |
-| `/examples/skeletons`       | `renderSkeleton` and `transition` while the wave fills in                |
-| `/examples/render-wave`     | `RenderWave`, progressive rendering without virtualization               |
-| `/examples/use-render-wave` | The `useRenderWave` hook driving custom markup                           |
+Every page here is a real page in this repository. Nothing is faked with a
+screenshot, so if an example renders on the site it compiles and runs.
 
-## Running locally
+## Layout
+
+| Path | What is in it |
+|------|---------------|
+| `app/examples/` | One prop or feature at a time, each with its source below the demo |
+| `app/recipes/` | Task-oriented answers: sizing, batch size, keys, scroll restoration, pausing, SSR |
+| `app/real-world/` | Whole screens: a chat transcript, a data table, a searchable directory |
+| `app/api-reference/` | Every export and prop in one page |
+| `lib/examples.ts` | The registry the nav and the landing page are both built from |
+| `lib/data.ts` | Sample data, derived from the row index so SSR and hydration agree |
+
+Adding a page means creating it under the right directory and adding one entry
+to `lib/examples.ts`. The nav and the landing grid pick it up from there.
+
+## Local development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open [http://localhost:3000](http://localhost:3000).
-
-> **Note:** this app depends on `react-render-wave@^3.0.0`. If v3 is not on npm yet, point the dependency at a local checkout with `npm install ../react-render-wave` before running `npm install`.
-
-Other scripts:
+The site resolves `react-render-wave` from npm. v3 is not published yet, so
+install it from the repository while you work:
 
 ```bash
-npm run build
-npm run typecheck
-npm run lint
+npm install github:sudo-ezekiel/react-render-wave
 ```
 
-## Notes on the code
+## Deploying
 
-**Sample data is derived from the row index**, never from `Math.random` or `Date`. These pages prerender on the server and render again on the client, so anything non-deterministic would surface as a hydration mismatch. See `lib/data.ts`.
+Static export served by an assets-only Cloudflare Worker.
 
-**Most examples pass `batchSize={items.length}`.** The reveal wave counts from index 0 regardless of scroll position, so on a long list a small batch size leaves rows blank if you scroll past the wave. Windowing already caps how many rows mount at once, so on a virtualized list the wave mainly matters for the initial fill. The skeletons example keeps a slow wave on purpose, on a deliberately short list, and always supplies `renderSkeleton`.
+```bash
+npm run deploy
+```
 
-**The `overrides` block in `package.json`** bumps `postcss`, `sharp`, and `brace-expansion` past versions that Next.js and eslint still pin. Each is a patch or minor bump inside the same major, and together they take `npm audit` to zero.
+That builds to `out/` and runs `wrangler deploy`. The hostname and the DNS
+record come from `wrangler.jsonc`.
 
-## License
+## Checks
 
-MIT
+```bash
+npm run lint
+npm run typecheck
+npm run build
+```
