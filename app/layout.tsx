@@ -4,9 +4,20 @@ import "./globals.css";
 import { Nav, MobileNav } from "@/components/Nav";
 
 export const metadata: Metadata = {
-  title: "React Render Wave examples",
+  metadataBase: new URL("https://renderwave.sudo-ezekiel.com"),
+  title: {
+    default: "React Render Wave",
+    template: "%s | React Render Wave",
+  },
   description:
-    "Runnable examples for react-render-wave: progressive wave rendering and virtual scrolling for React lists.",
+    "Documentation, recipes and runnable examples for react-render-wave: progressive wave rendering and virtual scrolling for React lists.",
+  openGraph: {
+    title: "React Render Wave",
+    description:
+      "Documentation, recipes and runnable examples for progressive rendering and virtual scrolling in React.",
+    url: "https://renderwave.sudo-ezekiel.com",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -24,7 +35,7 @@ export default function RootLayout({
                 🌊 Render Wave
               </span>
               <span className="mt-0.5 block text-xs text-neutral-500 dark:text-neutral-400">
-                Examples for v3
+                Docs and examples for v3
               </span>
             </Link>
 
