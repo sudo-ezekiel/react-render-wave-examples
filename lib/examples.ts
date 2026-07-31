@@ -1,12 +1,13 @@
-export type Example = {
+export type Entry = {
   slug: string;
   title: string;
   blurb: string;
+  /** The API the page is really about, shown as the card eyebrow. */
   api: string;
 };
 
 /** Single source of truth for the nav and the landing page. */
-export const examples: Example[] = [
+export const examples: Entry[] = [
   {
     slug: "basic",
     title: "Basic virtual list",
@@ -63,4 +64,85 @@ export const examples: Example[] = [
       "Drive your own markup with count, isComplete, reset, and a pause switch.",
     api: "useRenderWave",
   },
+];
+
+/** Short answers to the questions that come up once you are past the basics. */
+export const recipes: Entry[] = [
+  {
+    slug: "sizing",
+    title: "Sizing the container",
+    blurb:
+      "Fill a flex parent or a dvh layout instead of hard-coding a pixel height.",
+    api: "style",
+  },
+  {
+    slug: "batch-size",
+    title: "Choosing batchSize",
+    blurb:
+      "Why a slow wave and a virtualized list work against each other, and what to set instead.",
+    api: "batchSize",
+  },
+  {
+    slug: "stable-keys",
+    title: "Keys that survive sorting",
+    blurb:
+      "Filtering or reordering with index keys recycles the wrong DOM. getItemKey fixes it.",
+    api: "getItemKey",
+  },
+  {
+    slug: "scroll-restoration",
+    title: "Restoring scroll position",
+    blurb:
+      "Save the offset on the way out and put the reader back where they were.",
+    api: "onScroll",
+  },
+  {
+    slug: "pause-offscreen",
+    title: "Pausing off screen",
+    blurb:
+      "Stop the reveal for a list nobody is looking at, then resume when it scrolls into view.",
+    api: "enabled",
+  },
+  {
+    slug: "ssr",
+    title: "Server rendering",
+    blurb:
+      "What renders on the server, what waits for the client, and how to avoid a mismatch.",
+    api: "SSR",
+  },
+];
+
+/** Full screens rather than one prop in isolation. */
+export const realWorld: Entry[] = [
+  {
+    slug: "chat",
+    title: "Chat transcript",
+    blurb:
+      "Variable-height messages pinned to the newest, loading older ones as you scroll up.",
+    api: "Dynamic heights",
+  },
+  {
+    slug: "table",
+    title: "Data table",
+    blurb:
+      "A virtualized table body under a real sticky header row, with columns that stay aligned.",
+    api: "outerElement",
+  },
+  {
+    slug: "search",
+    title: "Searchable directory",
+    blurb:
+      "Filter 50,000 people as you type, with keys that stay stable across every result set.",
+    api: "getItemKey",
+  },
+];
+
+export const sections: {
+  title: string;
+  base: string;
+  entries: Entry[];
+}[] = [
+  { title: "Examples", base: "/examples", entries: examples },
+  { title: "Recipes", base: "/recipes", entries: recipes },
+  { title: "Real world", base: "/real-world", entries: realWorld },
 ];
