@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# React Render Wave examples
 
-## Getting Started
+Runnable examples for [react-render-wave](https://github.com/sudo-ezekiel/react-render-wave) v3, built with Next.js and Tailwind. Every example on the site is a real page in `app/examples`, so you can copy one into your own project and run it.
 
-First, run the development server:
+## Examples
+
+| Page                        | Shows                                                                     |
+| --------------------------- | ------------------------------------------------------------------------- |
+| `/examples/basic`           | 10,000 rows windowed down to a handful of DOM nodes                       |
+| `/examples/dynamic-heights` | Rows of varying height, measured automatically                            |
+| `/examples/sticky-headers`  | `groupByKey` plus a pinned header for the current group                   |
+| `/examples/infinite-scroll` | `onEndReached` appending pages without duplicate fetches                  |
+| `/examples/keyboard`        | Keyboard navigation and the imperative handle                            |
+| `/examples/skeletons`       | `renderSkeleton` and `transition` while the wave fills in                |
+| `/examples/render-wave`     | `RenderWave`, progressive rendering without virtualization               |
+| `/examples/use-render-wave` | The `useRenderWave` hook driving custom markup                           |
+
+## Running locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> **Note:** this app depends on `react-render-wave@^3.0.0`. If v3 is not on npm yet, point the dependency at a local checkout with `npm install ../react-render-wave` before running `npm install`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Other scripts:
 
-## Learn More
+```bash
+npm run build
+npm run typecheck
+npm run lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Notes on the code
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Sample data is derived from the row index**, never from `Math.random` or `Date`. These pages prerender on the server and render again on the client, so anything non-deterministic would surface as a hydration mismatch. See `lib/data.ts`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Most examples pass `batchSize={items.length}`.** The reveal wave counts from index 0 regardless of scroll position, so on a long list a small batch size leaves rows blank if you scroll past the wave. Windowing already caps how many rows mount at once, so on a virtualized list the wave mainly matters for the initial fill. The skeletons example keeps a slow wave on purpose, on a deliberately short list, and always supplies `renderSkeleton`.
 
-## Deploy on Vercel
+**The `overrides` block in `package.json`** bumps `postcss`, `sharp`, and `brace-expansion` past versions that Next.js and eslint still pin. Each is a patch or minor bump inside the same major, and together they take `npm audit` to zero.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
