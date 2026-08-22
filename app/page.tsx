@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { sections } from "@/lib/examples";
 import { CodeBlock } from "@/components/CodeBlock";
-import { Note } from "@/components/ExampleShell";
 
 export default function Home() {
   return (
@@ -27,15 +26,7 @@ export default function Home() {
       </p>
 
       <div className="mt-6">
-        <Note tone="warn">
-          v3 is not on npm yet. <code className="font-mono">npm install</code>{" "}
-          still resolves to 2.0.11, which has a different hook signature and the
-          old WebAssembly build. Install from the repository until v3 ships.
-        </Note>
-      </div>
-
-      <div className="mt-4">
-        <CodeBlock code={`npm install github:sudo-ezekiel/react-render-wave`} />
+        <CodeBlock code={`npm install react-render-wave`} />
       </div>
 
       {sections.map((section) => (
