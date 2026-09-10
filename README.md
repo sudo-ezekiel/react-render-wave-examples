@@ -29,11 +29,19 @@ npm install
 npm run dev
 ```
 
-The site resolves `react-render-wave` from npm. v3 is not published yet, so
-install it from the repository while you work:
+The site resolves `react-render-wave` from npm. When the pages here document an
+unreleased version, install the library from the repository while you work:
 
 ```bash
 npm install github:sudo-ezekiel/react-render-wave
+```
+
+To test against an uncommitted local build instead, pack the library and
+install the tarball, which is closer to what a consumer gets:
+
+```bash
+npm pack --pack-destination /tmp ../react-render-wave
+npm install --no-save /tmp/react-render-wave-<version>.tgz
 ```
 
 ## Deploying

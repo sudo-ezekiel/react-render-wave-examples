@@ -22,7 +22,7 @@ export default function Home() {
           VirtualRenderWave
         </code>{" "}
         adds windowing on top: only the rows in view exist in the DOM. No
-        dependencies, about 3.7 kB gzipped, ESM and CJS with types.
+        dependencies, about 7 kB gzipped, ESM and CJS with types.
       </p>
 
       <div className="mt-6">
