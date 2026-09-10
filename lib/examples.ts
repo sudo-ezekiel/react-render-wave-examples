@@ -44,11 +44,25 @@ export const examples: Entry[] = [
     api: "VirtualRenderWaveHandle",
   },
   {
+    slug: "scroll-control",
+    title: "Scroll control",
+    blurb:
+      "Align a row to the top, the middle or the bottom, open the list on a given row, and follow the range as it moves.",
+    api: "scrollTo",
+  },
+  {
     slug: "skeletons",
     title: "Skeletons and transitions",
     blurb:
       "Show placeholders for rows the wave has not reached yet, then fade them in.",
     api: "renderSkeleton",
+  },
+  {
+    slug: "reveal-mode",
+    title: "Reveal modes",
+    blurb:
+      "Sequential counts from the start of the list. Viewport reveals what is on screen, so a small batchSize keeps up.",
+    api: "revealMode",
   },
   {
     slug: "render-wave",
@@ -63,6 +77,13 @@ export const examples: Entry[] = [
     blurb:
       "Drive your own markup with count, isComplete, reset, and a pause switch.",
     api: "useRenderWave",
+  },
+  {
+    slug: "use-virtual-window",
+    title: "Headless windowing",
+    blurb:
+      "The windowing engine with the component peeled away. Offsets and refs, and the markup is yours.",
+    api: "useVirtualWindow",
   },
 ];
 
@@ -93,8 +114,8 @@ export const recipes: Entry[] = [
     slug: "scroll-restoration",
     title: "Restoring scroll position",
     blurb:
-      "Save the offset on the way out and put the reader back where they were.",
-    api: "onScroll",
+      "Save the offset on the way out and put the reader back where they were, on the first paint rather than after it.",
+    api: "initialScrollOffset",
   },
   {
     slug: "pause-offscreen",

@@ -24,9 +24,7 @@ export default function Page() {
       itemHeight={64}
       containerHeight={480}
       overscan={5}
-      // One wave. The reveal counts from index 0, so on a list this long a
-      // small batchSize would leave rows blank if you scroll past the wave.
-      // The skeletons example shows the wave doing its job instead.
+      // One wave. For a smaller batchSize see the reveal modes example.
       batchSize={people.length}
       getItemKey={(person) => person.id}
       ariaLabel="People"
@@ -45,15 +43,11 @@ export default function BasicExample() {
   const [domRows, setDomRows] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
 
-  // Counting the real DOM nodes is the clearest way to show what windowing
-  // buys: the number stays flat no matter how long the list is.
   const measure = useCallback(() => {
     const el = handle.current?.getScrollElement();
     setDomRows(el ? el.querySelectorAll('[role="listitem"]').length : 0);
   }, []);
 
-  // Runs after every commit, so the count reflects the DOM that was just
-  // rendered rather than the previous window.
   useEffect(() => {
     measure();
   });
@@ -64,7 +58,9 @@ export default function BasicExample() {
       description={
         <>
           Ten thousand rows, rendered a screenful at a time. Scroll the list and
-          watch the DOM node count stay flat while the offset climbs.
+          watch the DOM node count stay flat while the offset climbs. The reveal
+          below covers every row in one wave; the reveal modes example shows the
+          alternative for lists too long for that.
         </>
       }
       code={code}

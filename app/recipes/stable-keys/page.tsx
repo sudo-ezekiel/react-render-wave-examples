@@ -30,7 +30,10 @@ export default function StableKeysRecipe() {
       </Note>
 
       <H2>The fix</H2>
-      <P>Point at whatever your data already uses for identity.</P>
+      <P>
+        Point at whatever your data already uses for identity. The return type
+        is <Code>ItemKey</Code>, which is <Code>string | number</Code>.
+      </P>
       <CodeBlock
         code={`<VirtualRenderWave
   items={sorted}
@@ -39,6 +42,27 @@ export default function StableKeysRecipe() {
   renderItem={(person) => <Row person={person} />}
 />`}
       />
+
+      <H2>Measured heights follow the key</H2>
+      <P>
+        Measured row heights are stored by key rather than by position. With{" "}
+        <Code>getItemKey</Code> set, a row that has already been measured keeps
+        that height when it moves to a different index, so a sort only moves
+        rows around.
+      </P>
+      <P>
+        Without it, the key at each position stays the same while the data under
+        it changes, so every row drops back to the <Code>itemHeight</Code>{" "}
+        estimate and measures again on the next frame. On dynamic-height rows
+        you watch the whole list collapse to one uniform height and then settle,
+        once per sort.
+      </P>
+
+      <Note>
+        The key has to hold still across renders as well as across sorts. One
+        that changes every render throws the measurement cache away, and the
+        list will jump while scrolling.
+      </Note>
 
       <H2>When there is no id</H2>
       <P>
@@ -54,11 +78,24 @@ const rows = raw.map((r) => ({ ...r, key: \`\${r.date}:\${r.sku}\` }));
 <VirtualRenderWave items={rows} getItemKey={(r) => r.key} ... />`}
       />
 
-      <Note>
-        Stable keys also matter for measurement. Dynamic row heights are cached
-        per key, so a key that changes on every render throws the cache away and
-        the list will jump while scrolling.
-      </Note>
+      <H2>With the hook, memoize it</H2>
+      <P>
+        <Code>useVirtualWindow</Code> reads a new <Code>getItemKey</Code>{" "}
+        identity as a reorder, so give it one that survives a render.
+      </P>
+      <CodeBlock
+        code={`const getItemKey = useCallback((index: number) => rows[index].id, [rows]);
+
+const { scrollRef, virtualItems, totalSize } = useVirtualWindow({
+  count: rows.length,
+  estimateSize: 56,
+  getItemKey,
+});`}
+      />
+      <P>
+        <Code>VirtualRenderWave</Code> does not have this problem. An inline
+        arrow is fine there.
+      </P>
 
       <H2>Index keys are fine when</H2>
       <P>
